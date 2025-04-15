@@ -20,6 +20,7 @@ Is option function, check input arg for option status.
 If arg is a single or combination of single chars, will return 1.
 If arg is a long optin, will return non-zero prefix size.
 If arg is not an option, will return 0.
+If arg too small or not an option (Don't have prefix), will return -2 and -1.
 */
 static int __is_option(char* option) {
     /*
@@ -27,8 +28,8 @@ static int __is_option(char* option) {
     it looks like one symbol.
     */
     size_t option_size = strlen(option);
-    if (option_size < 2) return 0;
-    if (option[0] != OPTION_TOKEN) return 0;
+    if (option_size < 2) return -2;
+    if (option[0] != OPTION_TOKEN) return -1;
 
     /*
     Count prefix size for faster compare
@@ -130,23 +131,31 @@ int main(int argc, char* argv[]) {
         exit(1);
     }
 
+    int current_option = 0, current_noption = 0;
+    char* options[256] = { NULL };
+    char* noptions[256] = { NULL };
+
     int is_valid = 1;
-    int last_incorrect = 0;
     for (int i = 1; i < argc; i++) {
         int valid = 1;
         int prefix = __is_option(argv[i]);
-
-        if (!prefix) valid = 0;
-        else if (prefix > 1) valid = __is_long_option(argv[i], prefix);
-        if (!valid) last_incorrect = i;
+        if (prefix < 0) {
+            noptions[current_noption++] = argv[i];
+        }
+        else {
+            if (!prefix) valid = 0;
+            else if (prefix > 1) valid = __is_long_option(argv[i], prefix);
+            if (!valid) fprintf(stderr, "Invalid argument at %i index (%s).\n", i, argv[i]);
+            else options[current_option++] = argv[i] + prefix;
+        }
 
         is_valid = valid && is_valid;
     }
 
-    if (!is_valid) {
-        fprintf(stderr, "Invalid argument at %i index (%s).\n", last_incorrect, argv[last_incorrect]);
-        exit(1);
-    }
+    printf("Options are correct: ");
+    while (--current_option >= 0) printf("%s, ", options[current_option]);
+    printf(" non-options: ");
+    while (--current_noption >= 0) printf("%s%s", noptions[current_noption], current_noption - 1 >= 0 ? ", " : ".\n");
 
-    return 1;
+    return is_valid;
 }
