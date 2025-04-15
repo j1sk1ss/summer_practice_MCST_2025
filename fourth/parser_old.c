@@ -1,4 +1,10 @@
-#include "include/parser.h"
+/*
+Данный код не является решением поставленной задачи.
+Именно поэтому у него постфикс _old. Я не обратил внимания на необходимость
+реализации именно через getopt и getopt_long. Реализация с этими параметрами
+будет в файле parser.c
+*/
+#include "include/parser_old.h"
 
 
 static char* __elbrus_values[] = {
