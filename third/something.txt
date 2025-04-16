@@ -1,0 +1,24 @@
+Line!
+Another line!
+And again...
+Maybe try numbers?
+123
+321
+1
+0
+784
+Well, it doesn't work.
+What about Russian lang?
+Даже не знаю, может символы?
+...?
+,,,!
+It not work anyway.
+What about not visible chars?
+                .       .
+
+      
+            
+                    
+                           
+                                  
+Well...
