@@ -3,5 +3,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <fcntl.h>
+
+#include "values.h"
+#include "sorter.h"
+#include "commander.h"
 
 #endif

@@ -1,6 +1,8 @@
 #ifndef VALUES_H_
 #define VALUES_H_
 
+#include <ctype.h>
+#include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>

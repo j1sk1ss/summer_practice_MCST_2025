@@ -61,6 +61,7 @@ value_t* generate_values(int fd) {
 int free_values(value_t* h) {
     while (h) {
         value_t* next = h->next;
+        if (h->tmp_char) free(h->tmp_char);
         free(h->value);
         free(h);
         h = next;
