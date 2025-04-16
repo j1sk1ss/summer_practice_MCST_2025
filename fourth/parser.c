@@ -1,27 +1,27 @@
 #include "include/parser.h"
 
 
-int __get_prefix_length(const char* arg) {
+int _get_prefix_length(const char* arg) {
     size_t arg_size = strlen(arg);
     if (arg_size >= 2 && (arg[0] == '-' && arg[1] == '-')) return 2;
     if (arg_size >= 1 && arg[0] == '-') return 1;
     return 0;
 }
 
-static const char* __elbrus_values[] = {
+static const char* _elbrus_values[] = {
     "1c+", "2c+", "2c3", "4c", "8c", "16c", NULL
 };
 
-static int __validate_elbrus(const char* arg) {
-    for (int i = 0; __elbrus_values[i]; i++) {
-        if (strcmp(arg, __elbrus_values[i]) == 0) return 1;
+static int _validate_elbrus(const char* arg) {
+    for (int i = 0; _elbrus_values[i]; i++) {
+        if (strcmp(arg, _elbrus_values[i]) == 0) return 1;
     }
 
     return 0;
 }
 
-static option_t __options[] = {
-    { .option = ELBRUS_OPTION, .validate = __validate_elbrus },
+static option_t _options[] = {
+    { .option = ELBRUS_OPTION, .validate = _validate_elbrus },
     { .option = NULL }
 };
 
@@ -43,10 +43,10 @@ int main(int argc, char* argv[]) {
         int valid = 1;
         switch (opt) {
             case 0:
-                for (int i = 0; __options[i].option; i++) {
-                    if (strcmp(long_options[option_index].name, __options[i].option) == 0) {
-                        if (!__options[i].validate(optarg)) valid = 0;
-                        else options[current_option++] = strdup(argv[optind - 1] + __get_prefix_length(argv[optind - 1]));
+                for (int i = 0; _options[i].option; i++) {
+                    if (strcmp(long_options[option_index].name, _options[i].option) == 0) {
+                        if (!_options[i].validate(optarg)) valid = 0;
+                        else options[current_option++] = strdup(argv[optind - 1] + _get_prefix_length(argv[optind - 1]));
                     }
                 }
 

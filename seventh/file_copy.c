@@ -1,7 +1,7 @@
 #include "include/file_copy.h"
 
 
-static int __fork_copy(int fd, char* bpath) {
+static int _fork_copy(int fd, char* bpath) {
     pid_t pid = fork();
     if (pid < 0) {
         perror("fork()");
@@ -50,7 +50,7 @@ int main(int argc, char* argv[]) {
         exit(1);
     }
 
-    if (!__fork_copy(fd, argv[1])) {
+    if (!_fork_copy(fd, argv[1])) {
         fprintf(stderr, "File copy corrupted!\n");
         exit(1);
     }

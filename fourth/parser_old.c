@@ -7,16 +7,16 @@
 #include "include/parser_old.h"
 
 
-static char* __elbrus_values[] = {
+static char* _elbrus_values[] = {
     "1c+", "2c+", "2c3", "4c", "8c", "16c", NULL
 };
 
-static option_t __options[] = {
+static option_t _options[] = {
     { .option = "m", .accept_values = NULL, .prefix = 1 },
     { .option = "c", .accept_values = NULL, .prefix = 1 },
     { .option = "s", .accept_values = NULL, .prefix = 1 },
     { .option = "t", .accept_values = NULL, .prefix = 1 },
-    { .option = "elbrus", .accept_values = __elbrus_values, .prefix = 2 },
+    { .option = "elbrus", .accept_values = _elbrus_values, .prefix = 2 },
     { .option = NULL, .prefix = -1 }
 };
 
@@ -28,7 +28,7 @@ If arg is a long optin, will return non-zero prefix size.
 If arg is not an option, will return 0.
 If arg too small or not an option (Don't have prefix), will return -2 and -1.
 */
-static int __is_option(char* option) {
+static int _is_option(char* option) {
     /*
     We know, that if input option has len lower then 2, 
     it looks like one symbol.
@@ -55,9 +55,9 @@ static int __is_option(char* option) {
         char* option_head = option + option_prefix;
         while (*option_head) {
             int is_valid_seq = 0;
-            for (int i = 0; __options[i].option; i++) {
-                if (__options[i].prefix != option_prefix) continue;
-                if (*option_head == __options[i].option[0]) {
+            for (int i = 0; _options[i].option; i++) {
+                if (_options[i].prefix != option_prefix) continue;
+                if (*option_head == _options[i].option[0]) {
                     is_valid_seq = 1;
                     break;
                 }
@@ -73,9 +73,9 @@ static int __is_option(char* option) {
         /*
         This is a long option.
         */
-        for (int i = 0; __options[i].option; i++) {
-            if (__options[i].prefix != option_prefix) continue;
-            if (!strncmp(option + __options[i].prefix, __options[i].option, strlen(__options[i].option))) return option_prefix;
+        for (int i = 0; _options[i].option; i++) {
+            if (_options[i].prefix != option_prefix) continue;
+            if (!strncmp(option + _options[i].prefix, _options[i].option, strlen(_options[i].option))) return option_prefix;
         }
 
         return 0;
@@ -84,7 +84,7 @@ static int __is_option(char* option) {
     return 0;
 }
 
-static int __is_long_option(char* option, int prefix) {
+static int _is_long_option(char* option, int prefix) {
     /*
     We move pointer from option head to option body.
     Then we move to the body end (End marked by ASIGN token).
@@ -97,10 +97,10 @@ static int __is_long_option(char* option, int prefix) {
     if (!params) return 0;
 
     option_t* opt = NULL;
-    for (int i = 0; __options[i].option; i++) {
-        if (__options[i].prefix != prefix) continue;
-        if (strncmp(__options[i].option, body, params - body) == 0) {
-            opt = &__options[i];
+    for (int i = 0; _options[i].option; i++) {
+        if (_options[i].prefix != prefix) continue;
+        if (strncmp(_options[i].option, body, params - body) == 0) {
+            opt = &_options[i];
             break;
         }
     }
@@ -144,13 +144,13 @@ int main(int argc, char* argv[]) {
     int is_valid = 1;
     for (int i = 1; i < argc; i++) {
         int valid = 1;
-        int prefix = __is_option(argv[i]);
+        int prefix = _is_option(argv[i]);
         if (prefix < 0) {
             noptions[current_noption++] = argv[i];
         }
         else {
             if (!prefix) valid = 0;
-            else if (prefix > 1) valid = __is_long_option(argv[i], prefix);
+            else if (prefix > 1) valid = _is_long_option(argv[i], prefix);
             if (!valid) fprintf(stderr, "Invalid argument at %i index (%s).\n", i, argv[i]);
             else options[current_option++] = argv[i] + prefix;
         }

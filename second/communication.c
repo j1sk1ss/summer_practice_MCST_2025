@@ -1,7 +1,7 @@
 #include "include/communication.h"
 
 
-static void __chat_fd(int out_fd, int in_fd) {
+static void _chat_fd(int out_fd, int in_fd) {
     fd_set read_fds;
     char buffer[BUFFER_SIZE] = { 0 };
     int stdin_fd = fileno(stdin);
@@ -43,11 +43,11 @@ static void __chat_fd(int out_fd, int in_fd) {
     }
 }
 
-static int __socket_comm() {
+static int _socket_comm() {
     return 1;
 }
 
-static int __fifo_comm(char* src, char* dst) {
+static int _fifo_comm(char* src, char* dst) {
     unlink(src);
     unlink(dst);
 
@@ -71,7 +71,7 @@ static int __fifo_comm(char* src, char* dst) {
             exit(EXIT_FAILURE);
         }
 
-        __chat_fd(write_fd, read_fd);
+        _chat_fd(write_fd, read_fd);
     } 
     else {
         write_fd = open(dst, O_WRONLY);
@@ -81,7 +81,7 @@ static int __fifo_comm(char* src, char* dst) {
             exit(EXIT_FAILURE);
         }
 
-        __chat_fd(write_fd, read_fd);
+        _chat_fd(write_fd, read_fd);
     }
 
     close(write_fd);
@@ -107,7 +107,7 @@ int main(int argc, char* argv[]) {
 
         char* fifo_src = argv[2];
         char* fifo_dst = argv[3];
-        __fifo_comm(fifo_src, fifo_dst);
+        _fifo_comm(fifo_src, fifo_dst);
     }
     else if (!strcmp(comm_type, SOCKET_TYPE)) {
 
