@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -Wall
 
 OUTPUT = communication
-SOURCES = communication.c
+SOURCES = communication.c src/*
 
 all: force_build $(OUTPUT)
 
