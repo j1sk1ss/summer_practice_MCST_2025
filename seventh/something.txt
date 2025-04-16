@@ -1,0 +1,8 @@
+This is a dummy file content for demo fork.
+Это тестовый набор данных для демонстрации команды fork.
+Questo è un set di dati di prova per dimostrare il comando fork.
+123
+456
+678
+910
+,./123-=*;:
