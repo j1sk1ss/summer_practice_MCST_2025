@@ -59,7 +59,11 @@ int main(int argc, char* argv[]) {
             default: abort();
         }
 
-        if (!valid) fprintf(stderr, "Invalid argument at %i index (%s).\n", optind - 1, argv[optind - 1]);
+        if (!valid) {
+            fprintf(stderr, "Options are incorrect.\nInvalid argument at %i index (%s).\n", optind - 1, argv[optind - 1]);
+            for (int i = 0; i < current_option; i++) free(options[i]);
+            exit(EXIT_FAILURE);
+        }
     }
 
     for (int i = optind; i < argc; i++) {
@@ -67,9 +71,14 @@ int main(int argc, char* argv[]) {
     }
 
     printf("Options are correct: ");
-    for (int i = 0; i < current_option; i++) printf("%s, ", options[i]);
+    for (int i = 0; i < current_option; i++) {
+        printf("%s, ", options[i]);
+        free(options[i]);
+    }
+
     printf("non-options: ");
-    for (int i = 0; i < current_noption; i++) printf("%s%s", noptions[i], i + 1 < current_noption ? ", " : ".\n");
+    for (int i = 0; i < current_noption; i++) printf("%s%s", noptions[i], i + 1 < current_noption ? ", " : ".");
+    printf("\n");
 
     return 0;
 }
