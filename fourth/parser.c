@@ -31,7 +31,7 @@ int main(int argc, char* argv[]) {
     int option_index = 0;
 
     static struct option long_options[] = {
-        { ELBRUS_OPTION, required_argument, 0, 0 },
+        { ELBRUS_OPTION, required_argument, 0, 256 },
         { 0, 0, 0, 0 }
     };
 
@@ -42,7 +42,7 @@ int main(int argc, char* argv[]) {
     while ((opt = getopt_long(argc, argv, SHORT_OPTIONS, long_options, &option_index)) != -1) {
         int valid = 1;
         switch (opt) {
-            case 0:
+            case 256:
                 for (int i = 0; _options[i].option; i++) {
                     if (strcmp(long_options[option_index].name, _options[i].option) == 0) {
                         if (!_options[i].validate(optarg)) valid = 0;
