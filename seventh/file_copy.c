@@ -34,6 +34,22 @@ static int _fork_copy(int fd, char* bpath) {
     }
 
     close(new_fd);
+
+    if (pid > 0) {
+        waitpid(pid, NULL, 0);
+    }
+
+    int print_fd = open(save_name, O_RDONLY);
+    if (print_fd < 0) {
+        perror("open for read");
+        return 1;
+    }
+
+    printf("PID %d created file '%s'. Contents:\n", getpid(), save_name);
+    fflush(stdout);
+    while ((bytes = read(print_fd, buf, sizeof(buf))) > 0) write(STDOUT_FILENO, buf, bytes);
+    close(print_fd);
+
     if (!pid) _exit(0);
     return 1;
 }
