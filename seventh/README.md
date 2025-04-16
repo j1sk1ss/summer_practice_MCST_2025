@@ -5,4 +5,4 @@
 > make
 
 # Запуск
-> ./file_copy <path>
+> ./file_copy \<path\>
