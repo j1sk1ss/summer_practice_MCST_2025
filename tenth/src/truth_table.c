@@ -28,7 +28,7 @@ int create_table(table_t* t, const tree_t* r) {
     int var_count = max_index + 1;
 
     int row_count = 1 << var_count;
-    int* body = malloc(sizeof(int) * row_count);
+    int* body = malloc(row_count * sizeof(int));
     if (!body) return 0;
 
     int* values = (int*)malloc(var_count * sizeof(int));

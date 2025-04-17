@@ -6,6 +6,7 @@
 
 #include "markup.h"
 #include "parser.h"
+#include "semantic.h"
 #include "tokenizer.h"
 #include "truth_table.h"
 
