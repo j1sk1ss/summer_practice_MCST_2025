@@ -31,7 +31,7 @@ int create_table(table_t* t, const tree_t* r) {
     int* body = malloc(sizeof(int) * row_count);
     if (!body) return 0;
 
-    int* values = (int*)malloc(var_count);
+    int* values = (int*)malloc(var_count * sizeof(int));
     if (!values) {
         free(body);
         return 0;
