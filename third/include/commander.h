@@ -48,9 +48,19 @@ This commands will select type of sorting.
 #define ASCENDING_TYPE   "--asc"
 #define DESCENDING_TYPE  "--desc"
 
+#define OUTPUT  "-o"
+
+
+typedef struct command {
+    int (*op)(value_t*, int);
+    int dummy;
+    struct command* next;
+} commander_command_t;
+
 typedef struct {
     value_t* h;
     int sort_type;
+    char* output;
 } commander_result_t;
 
 
