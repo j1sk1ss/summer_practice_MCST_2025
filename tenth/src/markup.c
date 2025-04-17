@@ -66,7 +66,6 @@ int markup(token_t* h) {
     if (!h) return 0;
     while (h) {
         if (h->value) {
-            printf("%s\n", h->value);
             markuper_t* mrkp = _get_markup(h);
             if (mrkp) h->t_type = mrkp->t_type;
             if (h->t_type == UNKNOWN_VALUE) {

@@ -5,6 +5,9 @@
 #include <stdlib.h>
 
 #include "markup.h"
+#include "parser.h"
 #include "tokenizer.h"
+
+#define SHOW_TREE_OPTION    "--st"
 
 #endif
