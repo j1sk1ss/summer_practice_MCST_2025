@@ -38,6 +38,11 @@ static int _generate_array(char* path, dp_t* dp) {
     return 1;
 }
 
+int _free_dp(dp_t* dp) {
+    if (dp->array) free(dp->array);
+    return 1;
+}
+
 int main(int argc, char* argv[]) {
     if (argc < 2) {
         fprintf(stderr, "No args provided! Usage ./prog <path>\n");
@@ -79,5 +84,6 @@ int main(int argc, char* argv[]) {
     printf("L=%i, R=%i, MAX=%i\n", l, r, max);
 
     free(dp_arr);
+    _free_dp(&dp);
     return 1;
 }
