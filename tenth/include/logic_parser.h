@@ -7,6 +7,7 @@
 #include "markup.h"
 #include "parser.h"
 #include "tokenizer.h"
+#include "truth_table.h"
 
 #define SHOW_TREE_OPTION    "--st"
 

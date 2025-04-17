@@ -43,7 +43,7 @@ int main(int argc, char* argv[]) {
         fprintf(stderr, "Markup error!\n");
         exit(EXIT_FAILURE);
     }
-
+    
     tree_t* r = generate_logic_tree(h);
     if (!r) {
         fprintf(stderr, "Logic tree gen error!\n");
@@ -52,6 +52,29 @@ int main(int argc, char* argv[]) {
     }
 
     if (show_tree) _print_ltree(r, 0);
+
+    table_t t;
+    if (create_table(&t, r)) {
+        printf("Truth Table:\n");
+        for (int i = 0; i < t.vars_count; ++i)
+            printf("v%d ", i);
+
+        printf("| result\n");
+        for (int i = 0; i < t.vars_count; ++i)
+            printf("---");
+
+        printf("|--------\n");
+        for (int i = 0; i < t.body_size; ++i) {
+            for (int j = 0; j < t.vars_count; ++j) {
+                int bit = (i >> (t.vars_count - j - 1)) & 1;
+                printf(" %d ", bit);
+            }
+
+            printf("|   %d\n", t.body[i]);
+        }
+    }
+
+    free_table(&t);
     free_tree(r);
     return 1;
 }
