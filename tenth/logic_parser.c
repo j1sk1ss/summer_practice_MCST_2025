@@ -44,6 +44,12 @@ int main(int argc, char* argv[]) {
         exit(EXIT_FAILURE);
     }
     
+    int sem_res = check_semantic(h);
+    if (sem_res != -1) {
+        fprintf(stderr, "Expression not correct! Check token at %i index\n", sem_res);
+        exit(EXIT_FAILURE);
+    }
+
     tree_t* r = generate_logic_tree(h);
     if (!r) {
         fprintf(stderr, "Logic tree gen error!\n");
