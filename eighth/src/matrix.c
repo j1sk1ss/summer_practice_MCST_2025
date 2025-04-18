@@ -8,16 +8,49 @@ volatile int _current_i = -1;
 volatile int _current_j = -1;
 
 
-static void _sigint_handler(int signo) {
-    if (_sigint_count++ == 0) {
-        printf("\n[SIGINT] Caught SIGINT. Current indices: i=%d, j=%d\n", _current_i, _current_j);
-        fflush(stdout);
-        _sigint_received = 1;
-    } 
-    else {
-        printf("\n[SIGINT] Second SIGINT received. Exiting. Current indices: i=%d, j=%d\n", _current_i, _current_j);
-        exit(EXIT_FAILURE);
+/*
+Using write instead printf. Write is acync_safe for signals. Printf not.
+Also another formating functions like sprintf unsafe too, that's why we should
+print numbers with only one allowed safe function write.
+*/
+static int _int2str(int num, char* buff) {
+    char temp[12] = { 0 };
+    int pos = 0, len = 0;
+    if (num == 0) {
+        buff[0] = '0';
+        return 1;
     }
+    
+    if (num < 0) {
+        buff[len++] = '-';
+        num = -num;
+    }
+
+    while (num > 0) {
+        temp[pos++] = '0' + (num % 10);
+        num /= 10;
+    }
+
+    for (int i = pos - 1; i >= 0; --i) buff[len++] = temp[i];
+    return len;
+}
+
+static void _sigint_handler(int signo) {
+    char message[128] = { 0 };
+
+    const char* fmsg = "\n[SIGINT] Caught SIGINT. Current indices: i=";
+    const char* smsg = ", j=";
+    const char* tsmg = "\n";
+
+    int pos = 0;
+    for (int i = 0; fmsg[i]; ++i) message[pos++] = fmsg[i];
+    pos += _int2str(_current_i, &message[pos]);
+    for (int i = 0; smsg[i]; ++i) message[pos++] = smsg[i];
+    pos += _int2str(_current_j, &message[pos]);
+    for (int i = 0; tsmg[i]; ++i) message[pos++] = tsmg[i];
+
+    write(STDOUT_FILENO, message, sizeof(message) - 1);
+    if (_sigint_count++ == 1)  _exit(EXIT_FAILURE);
 }
 
 /*
