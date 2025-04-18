@@ -8,6 +8,10 @@
 #include <unistd.h>
 #include <stdlib.h>
 
+#define ERRLIST_OPTION  "--errlist"
+#define PERROR_OPTION   "--perror"
+#define ERRNO_OPTION    "--errno"
+
 extern int errno;
 extern const char * const sys_errlist[];
 extern const int sys_nerr;
