@@ -8,4 +8,6 @@
 #include <fcntl.h>
 #include <sys/wait.h>
 
+#define OUTPUT_OPTION   "-o"
+
 #endif
