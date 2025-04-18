@@ -7,6 +7,10 @@ void _handle_sigint(int sig) {
     stop = 1;
 }
 
+/*
+We register handler of SIGINT for correct program stop.
+Correct stop means FIFO realise and fd close.
+*/
 int register_handler() {
     signal(SIGINT, _handle_sigint);
     return 1;
