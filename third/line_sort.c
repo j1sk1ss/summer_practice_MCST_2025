@@ -63,6 +63,10 @@ int main(int argc, char* argv[]) {
                 char tmpname[] = "line_sort_output_XXXXXX.txt";
                 int out_fd = mkstemp(tmpname);
                 if (out_fd > 0) f = fdopen(out_fd, "w");
+                else {
+                    fprintf(stderr, "mkstemp return negative FD!\n");
+                    exit(EXIT_FAILURE);
+                }
             }
 
             if (!f) {
@@ -72,8 +76,8 @@ int main(int argc, char* argv[]) {
 
             printf("Sorted lines:\n");
             for (value_t* c = non_sorted.h; c; c = c->next) {
-                printf("%s\n", c->tmp_char ? c->tmp_char : c->value);
-                fprintf(f, "%s\n", c->tmp_char ? c->tmp_char : c->value);
+                printf("%s\n", c->value);
+                fprintf(f, "%s\n", c->value);
             }
 
             fclose(f);
