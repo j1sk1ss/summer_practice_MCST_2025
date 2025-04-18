@@ -2,20 +2,20 @@
 
 
 volatile sig_atomic_t _sigint_received = 0;
-volatile sig_atomic_t _sigint_count = 0;
+volatile sig_atomic_t _sigint_count    = 0;
 
 volatile int _current_i = -1;
 volatile int _current_j = -1;
 
-void _sigint_handler(int signo) {
-    if (_sigint_count == 0) {
-        printf("\n[SIGINT] Caught SIGINT. Current indices: i = %d, j = %d\n", _current_i, _current_j);
+
+static void _sigint_handler(int signo) {
+    if (_sigint_count++ == 0) {
+        printf("\n[SIGINT] Caught SIGINT. Current indices: i=%d, j=%d\n", _current_i, _current_j);
         fflush(stdout);
         _sigint_received = 1;
-        _sigint_count++;
     } 
     else {
-        printf("\n[SIGINT] Second SIGINT received. Exiting.\n");
+        printf("\n[SIGINT] Second SIGINT received. Exiting. Current indices: i=%d, j=%d\n", _current_i, _current_j);
         exit(EXIT_FAILURE);
     }
 }

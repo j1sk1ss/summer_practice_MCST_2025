@@ -3,7 +3,7 @@
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
-        fprintf(stderr, "No args provided! Usage ./%s <sig_type> (%s, %s) \n", argv[0], SIGACTION_TYPE, SIGNAL_TYPE);
+        fprintf(stderr, "No args provided! Usage %s <sig_type> (%s, %s) \n", argv[0], SIGACTION_TYPE, SIGNAL_TYPE);
         exit(EXIT_FAILURE);
     }
 
@@ -48,7 +48,7 @@ int main(int argc, char* argv[]) {
     /*
     Start multiplication.
     */
-    printf("Starting matrix multiplication. Press Ctrl+C to test signal handling...\n");
+    printf("Starting matrix multiplication. Press 'Ctrl + C' (SIGINT) to test signal handling...\n");
     if (matrix_multiply(&a, &b, &result) != 1) {
         fprintf(stderr, "Matrix operation 'A' X 'B' error!\n");
         exit(EXIT_FAILURE);
@@ -61,5 +61,5 @@ int main(int argc, char* argv[]) {
     free_matrix(&b);
     free_matrix(&result);
 
-    return 0;
+    return EXIT_SUCCESS;
 }
