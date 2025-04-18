@@ -29,7 +29,7 @@ static int _print_ltree(const tree_t* node, int depth) {
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
-        fprintf(stderr, "Invalid count of args provided. Usage: %s \"<expression>\"\n <show_tree (--st)>", argv[0]);
+        fprintf(stderr, "Invalid count of args provided. Usage: %s \"<expression>\" <args (--st)>\n", argv[0]);
         exit(EXIT_FAILURE);
     }
 
@@ -69,7 +69,7 @@ int main(int argc, char* argv[]) {
         for (int i = 0; i < t.vars_count; ++i)
             printf("---");
 
-        printf("|--------\n");
+        printf("+--------\n");
         for (int i = 0; i < t.body_size; ++i) {
             for (int j = 0; j < t.vars_count; ++j) {
                 int bit = (i >> (t.vars_count - j - 1)) & 1;
