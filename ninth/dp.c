@@ -45,7 +45,7 @@ int _free_dp(dp_t* dp) {
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
-        fprintf(stderr, "No args provided! Usage ./prog <path>\n");
+        fprintf(stderr, "No args provided! Usage %s <path>\n", argv[0]);
         exit(EXIT_FAILURE);
     }
 
@@ -77,13 +77,15 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    for (int i = 0; i < dp.arr_size; i++) {
-        printf("[DEBUG] DP arr index=%i, val=%i\n", i, dp_arr[i]);
-    }
+    printf("DP array is: ");
+    for (int i = 0; i < dp.arr_size; i++) printf("%d ", dp_arr[i]);
+    printf("\n");
 
-    printf("L=%i, R=%i, MAX=%i\n", l, r, max);
+    printf("Answer: l=%i, r=%i, max sum=%i\nAnswer sequence is: ", l, r, max);
+    for (int i = l; i <= r; i++) printf("%d ", dp.array[i]);
+    printf("\n");
 
     free(dp_arr);
     _free_dp(&dp);
-    return 1;
+    return EXIT_SUCCESS;
 }
