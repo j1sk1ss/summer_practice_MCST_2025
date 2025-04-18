@@ -27,6 +27,11 @@ static option_t _options[] = {
 
 
 int main(int argc, char* argv[]) {
+    if (argc < 2) {
+        fprintf(stderr, "No args provided! Usage %s <args (-m -c -s -t --elbrus)>\n", argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
     int opt = 0;
     int option_index = 0;
 
@@ -35,8 +40,8 @@ int main(int argc, char* argv[]) {
         { 0, 0, 0, 0 }
     };
 
-    int current_option = 0, current_noption = 0;
-    char* options[256] = { NULL };
+    int current_option  = 0, current_noption = 0;
+    char* options[256]  = { NULL };
     char* noptions[256] = { NULL };
 
     while ((opt = getopt_long(argc, argv, SHORT_OPTIONS, long_options, &option_index)) != -1) {
@@ -80,5 +85,5 @@ int main(int argc, char* argv[]) {
     for (int i = 0; i < current_noption; i++) printf("%s%s", noptions[i], i + 1 < current_noption ? ", " : ".");
     printf("\n");
 
-    return 0;
+    return EXIT_SUCCESS;
 }
