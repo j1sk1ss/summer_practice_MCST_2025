@@ -18,7 +18,7 @@ static int _fork_copy(int fd, char* bpath, char* spath) {
     const char* filename = strrchr(resolved_path, '/');
     filename = filename ? filename + 1 : resolved_path;
 
-    char save_name[128] = { 0 };
+    char save_name[256] = { 0 };
     sprintf(save_name, "%s%d_%s", spath, getpid(), filename);
 
     int new_fd = open(save_name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
