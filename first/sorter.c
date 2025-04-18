@@ -3,7 +3,7 @@
 
 static int _count_lines(FILE* f) {
     int count = 0;
-    for (char c = getc(f); c != EOF; c = getc(f)) {
+    for (char c = 0; c != EOF; c = getc(f)) {
         if (c == '\n') count++;
     }
 
@@ -47,19 +47,20 @@ static int _free_arr(arr_t* arr) {
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
-        fprintf(stderr, "No args provided! Usage ./prog <path> <args>\n");
+        fprintf(stderr, "No args provided! Usage %s <path> <args (--max_thread <num>/--asc/--desc)>\n", argv[0]);
         exit(EXIT_FAILURE);
     }
 
+    int sort_type = 0;
     char* input_file = NULL;
     for (int i = 1; i < argc; i++) {
         if (!strcmp(argv[i], SET_MAX_THREADS_OPTION)) {
             if (i + 1 >= argc) continue;
             else set_thread_limit(atoi(argv[i++ + 1]));
         }
-        else {
-            input_file = argv[i];
-        }
+        else if (!strcmp(argv[i], ASCENDING_SORT_OPTION))   sort_type = 0;
+        else if (!strcmp(argv[i], DESCENDING_SORT_OPTION))  sort_type = 1;
+        else input_file = argv[i];
     }
 
     arr_t arr;
@@ -68,7 +69,7 @@ int main(int argc, char* argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    if (!sort(arr.body, arr.size)) {
+    if (!sort(arr.body, arr.size, sort_type)) {
         _free_arr(&arr);
         fprintf(stderr, "Sorting error!\n");
         exit(EXIT_FAILURE);
@@ -82,5 +83,5 @@ int main(int argc, char* argv[]) {
 
     printf("\nSort complete.\n");
     _free_arr(&arr);
-    return 1;
+    return EXIT_SUCCESS;
 }

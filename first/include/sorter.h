@@ -7,6 +7,8 @@
 #include "sort.h"
 
 #define SET_MAX_THREADS_OPTION  "--max_threads"
+#define ASCENDING_SORT_OPTION   "--asc"
+#define DESCENDING_SORT_OPTION  "--desc"
 
 typedef struct {
     int* body;
