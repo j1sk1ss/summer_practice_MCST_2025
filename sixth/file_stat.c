@@ -2,7 +2,7 @@
 
 
 void _print_file_type(mode_t mode) {
-    printf("| Type: ");
+    printf("|| Type: ");
     if (S_ISREG(mode))        printf("default file");
     else if (S_ISDIR(mode))   printf("catalog");
     else if (S_ISCHR(mode))   printf("symbol device");
@@ -15,7 +15,7 @@ void _print_file_type(mode_t mode) {
 }
 
 void _print_permissions(mode_t mode) {
-    printf("| Permissions: ");
+    printf("|| Permissions: ");
     printf((mode & S_IRUSR) ? "r" : "-");
     printf((mode & S_IWUSR) ? "w" : "-");
     printf((mode & S_IXUSR) ? "x" : "-");
@@ -30,7 +30,7 @@ void _print_permissions(mode_t mode) {
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
-        fprintf(stderr, "No args provided. Usage: ./prog <path>\n");
+        fprintf(stderr, "No args provided. Usage: %s <path>\n", argv[0]);
         exit(EXIT_FAILURE);
     }
 
@@ -41,15 +41,15 @@ int main(int argc, char* argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    printf("|====================\n");
-    printf("| File: %s\n",            filename);
+    printf("|=================================================\n");
+    printf("|| File: %s\n",            filename);
     _print_file_type(file_stat.st_mode);
     _print_permissions(file_stat.st_mode);
-    printf("| Size: %lld bytes\n",    file_stat.st_size);
-    printf("| inode: %llu\n",         file_stat.st_ino);
-    printf("| Count links: %hu\n",    file_stat.st_nlink);
-    printf("| Last changed: %s",      ctime(&file_stat.st_mtime));
-    printf("|====================\n");
+    printf("|| Size: %lld bytes\n",    file_stat.st_size);
+    printf("|| inode: %llu\n",         file_stat.st_ino);
+    printf("|| Count links: %hu\n",    file_stat.st_nlink);
+    printf("|| Last changed: %s",      ctime(&file_stat.st_mtime));
+    printf("|=================================================\n");
 
-    return 1;
+    return EXIT_SUCCESS;
 }
