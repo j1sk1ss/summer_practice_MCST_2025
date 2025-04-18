@@ -3,7 +3,7 @@
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
-        fprintf(stderr, "No args provided! Usage ./prog <type>\n");
+        fprintf(stderr, "No args provided! Usage %s <type> (%s, %s)\n", argv[0], FIFO_TYPE, SOCKET_TYPE);
         exit(EXIT_FAILURE);
     }
 
