@@ -82,5 +82,5 @@ int main(int argc, char* argv[]) {
 
     free_table(&t);
     free_tree(r);
-    return 1;
+    return EXIT_SUCCESS;
 }

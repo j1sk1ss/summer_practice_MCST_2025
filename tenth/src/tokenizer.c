@@ -20,11 +20,11 @@ static int _to_lower(char* val) {
 }
 
 static char_type_t _get_char_type(char c) {
-    if (isdigit(c)) return DIGIT_CHAR;
-    else if (isalpha(c)) return LETTER_CHAR;
-    else if (c == '(') return OPEN_BRACKET_CHAR;
-    else if (c == ')') return CLOSE_BRACKET_CHAR;
-    else if (isspace(c)) return SPACE_CHAR;
+    if (isdigit(c))         return DIGIT_CHAR;
+    else if (isalpha(c))    return LETTER_CHAR;
+    else if (c == '(')      return OPEN_BRACKET_CHAR;
+    else if (c == ')')      return CLOSE_BRACKET_CHAR;
+    else if (isspace(c))    return SPACE_CHAR;
     return UNKNOWN_CHAR;
 }
 
@@ -33,13 +33,14 @@ static token_t* _create_token(char* value, token_type_t t_type) {
     if (!token) return NULL;
     
     if (value) {
-        char* lower = strdup(value);
+        char* lower  = strdup(value);
         token->value = lower;
         _to_lower(token->value);
     }
 
-    token->t_type = t_type;
-    token->next = NULL;
+    token->next      = NULL;
+    token->t_type    = t_type;
+    token->in_tree   = 0;
     token->val_index = -1;
 
     return token;
@@ -88,8 +89,8 @@ int free_tokens(token_t* head) {
     if (!head) return 0;
     while (head) {
         token_t* next = head->next;
-        if (head->value) free(head->value);
-        free(head);
+        if (head->value && !head->in_tree) free(head->value);
+        if (!head->in_tree) free(head);
         head = next;
     }
 

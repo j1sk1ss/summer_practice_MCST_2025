@@ -3,7 +3,7 @@
 
 static tree_t* _parse_factor(token_t**);
 
-static tree_t* _create_node(token_t *token, tree_t* left, tree_t* right) {
+static tree_t* _create_node(token_t* token, tree_t* left, tree_t* right) {
     tree_t* node = malloc(sizeof(tree_t));
     if (!node) return NULL;
 
@@ -44,7 +44,8 @@ static tree_t* _parse_factor(token_t** tokens) {
     token_t* current = *tokens;
 
     switch (current->t_type) {
-        case NOT_TOKEN: 
+        case NOT_TOKEN:
+            (*tokens)->in_tree = 1;
             *tokens = current->next;
             tree_t* child = _parse_factor(tokens);
             node = _create_node(current, NULL, child);
@@ -62,6 +63,7 @@ static tree_t* _parse_factor(token_t** tokens) {
                 return NULL;
             }
 
+            (*tokens)->in_tree = 1;
             *tokens = (*tokens)->next;
         break;
         
@@ -72,7 +74,8 @@ static tree_t* _parse_factor(token_t** tokens) {
                 free_tree(node);
                 return NULL;
             }
-
+            
+            (*tokens)->in_tree = 1;
             *tokens = current->next;
         break;
         default: break;
