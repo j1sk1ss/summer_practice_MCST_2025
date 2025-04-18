@@ -25,6 +25,7 @@ Command syntax is toint <type> (asc / desc).
 Command syntax is digsum <type> (asc / desc).
 Command syntax is chsum <type> (asc / desc).
 */
+#define LETSUM_COMMAND      "--letsum"
 #define DIGSUM_COMMAND      "--digsum"
 #define CHARSUM_COMMAND     "--chsum"
 /*

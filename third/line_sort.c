@@ -2,26 +2,30 @@
 
 
 static int _print_help() {
-    printf("Usage:\n");
-    printf("1) --bylen option calculate line len.\n");
+    printf("||========================================================\n"   );
+    printf("|| Usage:\n"                                                    );
+    printf("|| --bylen option calculate line len.\n"                        );
 
     printf(
-        "2) %s\n\t%s\n\t%s\n",
+        "|| %s\n|| \t%s\n|| \t%s\n",
         "--bychar_at <idx> option select char at index in len.",
         "If provide negative value, will take chars from end.",
         "Example: --bychar_at -1 will take last character from line."
     );
 
-    printf("3) --toint option convert every line to int.\n");
-    printf("4) --digsum option get sum of all digits in line.\n");
-    printf("5) --chsum option get sum of all characters in line.\n");
-    printf("6) --lcount option get count of lower characters in line.\n");
-    printf("7) --ucount option get count of upper characters in line.\n");
-    printf("8) --tlow option convert line to lower case.\n");
-    printf("9) --tupp option convert line to upper case.\n");
-    printf("10) --asc option select ascending sort type.\n");
-    printf("11) --desc option selct descending sort type.\n");
-    printf("12) -o option select save location.\n");
+    printf("|| --toint option convert every line to int.\n"                 );
+    printf("|| --letsum option get sum of all letters in line.\n"           );
+    printf("|| --digsum option get sum of all digits in line.\n"            );
+    printf("|| --chsum option get sum of all characters in line.\n"         );
+    printf("|| --lcount option get count of lower characters in line.\n"    );
+    printf("|| --ucount option get count of upper characters in line.\n"    );
+    printf("|| --tlow option convert line to lower case.\n"                 );
+    printf("|| --tupp option convert line to upper case.\n"                 );
+    printf("|| --asc option select ascending sort type.\n"                  );
+    printf("|| --desc option selct descending sort type.\n"                 );
+    printf("|| -o option select save location.\n"                           );
+    printf("||\n|| Example: ./prog <path> <args> -o <save>\n"               );
+    printf("||========================================================\n"   );
 
     return 1;
 }
@@ -56,9 +60,9 @@ int main(int argc, char* argv[]) {
             char* path = non_sorted.output;
             if (path) f = fopen(path, "w");
             else {
-                char tmpname[] = "line_sort_output_XXXXXX";
-                int fd = mkstemp(tmpname);
-                if (fd > 0) f = fdopen(fd, "w");
+                char tmpname[] = "line_sort_output_XXXXXX.txt";
+                int out_fd = mkstemp(tmpname);
+                if (out_fd > 0) f = fdopen(out_fd, "w");
             }
 
             if (!f) {
@@ -66,6 +70,7 @@ int main(int argc, char* argv[]) {
                 exit(EXIT_FAILURE);
             }
 
+            printf("Sorted lines:\n");
             for (value_t* c = non_sorted.h; c; c = c->next) {
                 printf("%s\n", c->tmp_char ? c->tmp_char : c->value);
                 fprintf(f, "%s\n", c->tmp_char ? c->tmp_char : c->value);
@@ -76,6 +81,7 @@ int main(int argc, char* argv[]) {
     }
 
     close(fd);
-    free_values(non_sorted.h);
-    return 1;
+    if (non_sorted.h) free_values(non_sorted.h);
+    if (non_sorted.output) free(non_sorted.output);
+    return EXIT_SUCCESS;
 }

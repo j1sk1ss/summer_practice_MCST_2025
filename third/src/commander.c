@@ -113,6 +113,19 @@ static int _to_int(value_t* v, int dummy) {
 /*
 Will save to tmp_int
 */
+static int _sum_alpha(value_t* v, int dummy) {
+    if (!v || !v->value) return 0;
+    char* val = v->tmp_char ? v->tmp_char : v->value;
+    for (char* p = val; *p; ++p) {
+        if (isalpha(*p)) v->tmp_int += *p;
+    }
+
+    return 1;
+}
+
+/*
+Will save to tmp_int
+*/
 static int _sum_chars(value_t* v, int dummy) {
     if (!v || !v->value) return 0;
     char* val = v->tmp_char ? v->tmp_char : v->value;
@@ -173,11 +186,12 @@ int prepare_values(value_t* h, int offset, char* argv[], int argc, commander_res
         if (!strcmp(cmd, LEN_COMMAND)) op = _by_len;
         else if (!strcmp(cmd, CHAR_COMMAND)) {
             if (i + 1 < argc) i += 1;
-            else goto error;
+            else break;
             op  = _by_char;
             val = atoi(argv[i]);
         }
         else if (!strcmp(cmd, INT_COMMAND))         op = _to_int;
+        else if (!strcmp(cmd, LETSUM_COMMAND))      op = _sum_alpha;
         else if (!strcmp(cmd, CHARSUM_COMMAND))     op = _sum_chars;
         else if (!strcmp(cmd, DIGSUM_COMMAND))      op = _sum_digits;
         else if (!strcmp(cmd, COUNT_LOWER_COMMAND)) op = _count_lower;
@@ -186,7 +200,7 @@ int prepare_values(value_t* h, int offset, char* argv[], int argc, commander_res
         else if (!strcmp(cmd, TO_UPPER))            op = _to_upper;
         else if (!strcmp(cmd, OUTPUT)) {
             if (i + 1 < argc) i += 1;
-            else goto error;
+            else break;
             res->output = strdup(argv[i]);
         }
         else if (!strcmp(cmd, ASCENDING_TYPE))  sort_type = 1;
@@ -196,7 +210,7 @@ int prepare_values(value_t* h, int offset, char* argv[], int argc, commander_res
             commander_command_t* new_cmd = malloc(sizeof(commander_command_t));
             if (!new_cmd) {
                 fprintf(stderr, "[ERROR] Memory allocation for command failed\n");
-                goto error;
+                break;
             }
 
             new_cmd->op    = op;
@@ -209,18 +223,14 @@ int prepare_values(value_t* h, int offset, char* argv[], int argc, commander_res
         }
     }
 
-    if (!_go_through_values(h, head)) {
-        fprintf(stderr, "[ERROR] Command application failed\n");
-        goto error;
+    if (!_go_through_values(h, head)) fprintf(stderr, "[ERROR] Command application failed\n");
+    else {
+        _free_commands(head);
+        res->sort_type = sort_type;
+        res->h = h;
+        return 1;
     }
-
-    _free_commands(head);
-    res->sort_type = sort_type;
-    res->h = h;
-
-    return 1;
-
-error:
+    
     _free_commands(head);
     return -1;
 }
