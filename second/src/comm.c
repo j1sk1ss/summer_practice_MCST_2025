@@ -3,7 +3,7 @@
 
 volatile sig_atomic_t stop = 0;
 
-void _handle_sigint(int sig) {
+static void _handle_sigint(int sig) {
     stop = 1;
 }
 
@@ -12,7 +12,11 @@ We register handler of SIGINT for correct program stop.
 Correct stop means FIFO realise and fd close.
 */
 int register_handler() {
-    signal(SIGINT, _handle_sigint);
+    struct sigaction sa;
+    sa.sa_handler = _handle_sigint;
+    sigemptyset(&sa.sa_mask);
+    sa.sa_flags = 0;
+    if (sigaction(SIGINT, &sa, NULL) == -1) return 0;
     return 1;
 }
 
