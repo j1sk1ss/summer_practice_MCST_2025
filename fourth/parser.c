@@ -78,7 +78,7 @@ int main(int argc, char* argv[]) {
     printf("Options are correct: ");
     for (int i = 0; i < current_option; i++) {
         printf("%s, ", options[i]);
-        free(options[i]);
+        if (options[i]) free(options[i]);
     }
 
     printf("non-options: ");
