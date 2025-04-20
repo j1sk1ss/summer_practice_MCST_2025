@@ -2,19 +2,17 @@
 
 
 int _destroy_link(char* src, char* dst) {
-    unlink(src);
-    unlink(dst);
-    printf("Try to unlink FIFO, if they exists: [%s %s]\n", src, dst);
+    int fres = unlink(src);
+    int sres = unlink(dst);
+    if (!fres || !sres) printf("Try to unlink FIFO, if they exists: [%s %s]\n", src, dst);
     return 1;
 }
 
 int fifo_comm() {
-    char src[] = "/tmp/fifo_master_XXXXXX";
-    char dst[] = "/tmp/fifo_slave_XXXXXX";
-    if (mkstemp(src) == -1 || mkstemp(dst) == -1) {
-        perror("mkstemp failed");
-        exit(EXIT_FAILURE);
-    }
+    char src[64] = { 0 };
+    char dst[64] = { 0 };
+    sprintf(src, "%d_fifo_master", getpid());
+    sprintf(dst, "%d_fifo_slave", getpid());
     
     _destroy_link(src, dst);
     if (mkfifo(src, 0666) == -1 || mkfifo(dst, 0666) == -1) {
@@ -62,6 +60,7 @@ int fifo_comm() {
 
     close(write_fd);
     close(read_fd);
+    _destroy_link(src, dst);
 
     return 1;
 }

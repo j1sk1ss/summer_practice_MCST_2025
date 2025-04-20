@@ -5,13 +5,8 @@ int socket_comm() {
     struct sockaddr_un addr;
     int server_fd = 0, client_fd = 0, sock_fd = 0;
 
-    char socket_path[] = "/tmp/socket_XXXXXX";
-    if (mkstemp(socket_path) == -1) {
-        perror("mkstemp failed");
-        exit(EXIT_FAILURE);
-    }
-
-    unlink(socket_path);
+    char socket_name[64] = { 0 };
+    sprintf(socket_name, "%d_socket", getpid());
 
     server_fd = socket(AF_UNIX, SOCK_STREAM, 0);
     if (server_fd == -1) {
@@ -21,19 +16,19 @@ int socket_comm() {
 
     memset(&addr, 0, sizeof(addr));
     addr.sun_family = AF_UNIX;
-    strncpy(addr.sun_path, socket_path, sizeof(addr.sun_path) - 1);
+    strncpy(addr.sun_path, socket_name, sizeof(addr.sun_path) - 1);
 
     if (bind(server_fd, (struct sockaddr*)&addr, sizeof(addr)) == -1) {
         perror("bind failed");
         close(server_fd);
-        unlink(socket_path);
+        unlink(socket_name);
         exit(EXIT_FAILURE);
     }
 
     if (listen(server_fd, 1) == -1) {
         perror("listen failed");
         close(server_fd);
-        unlink(socket_path);
+        unlink(socket_name);
         exit(EXIT_FAILURE);
     }
 
@@ -41,7 +36,7 @@ int socket_comm() {
     if (pid == -1) {
         perror("fork failed");
         close(server_fd);
-        unlink(socket_path);
+        unlink(socket_name);
         exit(EXIT_FAILURE);
     }
 
@@ -53,12 +48,12 @@ int socket_comm() {
         if (client_fd == -1) {
             perror("accept failed");
             close(server_fd);
-            unlink(socket_path);
+            unlink(socket_name);
             exit(EXIT_FAILURE);
         }
 
         close(server_fd);
-        unlink(socket_path);
+        unlink(socket_name);
 
         chat_fd(client_fd, client_fd, "server", "client");
         close(client_fd);
