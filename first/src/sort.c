@@ -96,6 +96,12 @@ int sort(int* arr, int size, int sort_type) {
     pthread_t* threads = (pthread_t*)malloc(_threads_lim * sizeof(pthread_t));
     if (!threads) return 0;
 
+    int* tmp = malloc(sizeof(int) * size);
+    if (!tmp) {
+        free(threads);
+        return 0;
+    }
+
     /*
     Send array pointer to threads with different left and right bound.
     That means, array will be sorted at _thread_lim part.
@@ -117,7 +123,6 @@ int sort(int* arr, int size, int sort_type) {
         pthread_join(threads[i], NULL);
     }
 
-    int* tmp = malloc(sizeof(int) * size);
     _merge(tmp, arr, size, _threads_lim, sort_type);
     memcpy(arr, tmp, sizeof(int) * size);
     free(tmp);
