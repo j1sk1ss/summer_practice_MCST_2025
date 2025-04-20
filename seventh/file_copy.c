@@ -19,7 +19,7 @@ static int _fork_copy(int fd, char* bpath, char* spath) {
     filename = filename ? filename + 1 : resolved_path;
 
     char save_name[256] = { 0 };
-    sprintf(save_name, "%s%d_%s", spath, getpid(), filename);
+    snprintf(save_name, 255, "%s%d_%s", spath, getpid(), filename);
 
     int new_fd = open(save_name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
     if (new_fd < 0) {
