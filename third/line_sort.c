@@ -1,7 +1,7 @@
 #include "include/line_sort.h"
 
 
-static int _print_help() {
+static int _print_help(char* program) {
     printf("||========================================================\n"   );
     printf("|| Usage:\n"                                                    );
     printf("|| --bylen option calculate line len.\n"                        );
@@ -22,9 +22,9 @@ static int _print_help() {
     printf("|| --tlow option convert line to lower case.\n"                 );
     printf("|| --tupp option convert line to upper case.\n"                 );
     printf("|| --asc option select ascending sort type.\n"                  );
-    printf("|| --desc option selct descending sort type.\n"                 );
+    printf("|| --desc option select descending sort type.\n"                );
     printf("|| -o option select save location.\n"                           );
-    printf("||\n|| Example: ./prog <path> <args> -o <save>\n"               );
+    printf("||\n|| Example: %s <path> <args> -o <save>\n", program          );
     printf("||========================================================\n"   );
 
     return 1;
@@ -32,17 +32,18 @@ static int _print_help() {
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
-        _print_help();
+        _print_help(argv[0]);
         exit(EXIT_FAILURE);
     }
 
-    int fd = open(argv[1], O_RDONLY);
-    if (fd < 0) {
+    FILE* fp = fopen(argv[1], "r");
+    if (!fp) {
         fprintf(stderr, "File [%s] not found\n", argv[1]);
         exit(EXIT_FAILURE);
     }
 
-    value_t* values = generate_values(fd);
+    value_t* values = generate_values(fp);
+    fclose(fp);
     if (!values) {
         fprintf(stderr, "Values gen error!\n");
         exit(EXIT_FAILURE);
@@ -84,7 +85,6 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    close(fd);
     if (non_sorted.h) free_values(non_sorted.h);
     if (non_sorted.output) free(non_sorted.output);
     return EXIT_SUCCESS;

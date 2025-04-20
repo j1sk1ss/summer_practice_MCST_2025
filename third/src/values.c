@@ -1,8 +1,7 @@
 #include "../include/values.h"
 
 
-value_t* generate_values(int fd) {
-    FILE* f = fdopen(fd, "r");
+value_t* generate_values(FILE* f) {
     if (!f) return NULL;
 
     value_t* head = NULL;
@@ -53,7 +52,6 @@ value_t* generate_values(int fd) {
         tail = node;
     }
 
-    fclose(f);
     if (!line) free(line);
     return head;
 }

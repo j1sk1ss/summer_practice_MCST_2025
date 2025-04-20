@@ -19,7 +19,7 @@ typedef struct value {
 } value_t;
 
 
-value_t* generate_values(int fd);
+value_t* generate_values(FILE* f);
 int free_values(value_t* h);
 
 #endif

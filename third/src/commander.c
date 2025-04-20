@@ -205,6 +205,7 @@ int prepare_values(value_t* h, int offset, char* argv[], int argc, commander_res
         }
         else if (!strcmp(cmd, ASCENDING_TYPE))  sort_type = 1;
         else if (!strcmp(cmd, DESCENDING_TYPE)) sort_type = 0;
+        else printf("Unknown option [%s] at index [%i]\n", cmd, i);
 
         if (op) {
             commander_command_t* new_cmd = malloc(sizeof(commander_command_t));
