@@ -1,12 +1,27 @@
 #include "include/sorter.h"
 
 
+static int _print_help(char* program) {
+    printf("||========================================================\n"   );
+    printf("|| Usage:\n"                                                    );
+    printf("|| --no_output option disable console output.\n"                );
+    printf("|| --arr_size option set size of generated array for sort.\n"   );
+    printf("|| --max_threads option set thread number in sorting.\n"        );
+    printf("|| --asc option select ascending sort type.\n"                  );
+    printf("|| --desc option select descending sort type.\n"                );
+    printf("|| --help option show this message.\n"                          );
+    printf("||\n|| Example: %s <args>\n", program                           );
+    printf("||========================================================\n"   );
+    return 1;
+}
+
 int main(int argc, char* argv[]) {
     int arr_size = 10000;
     int sort_type = 0;
     int output = 1;
     for (int i = 1; i < argc; i++) {
-        if (!strcmp(argv[i], SET_MAX_THREADS_OPTION)) {
+        if (!strcmp(argv[i], HELP_OPTION)) _print_help(argv[0]);
+        else if (!strcmp(argv[i], SET_MAX_THREADS_OPTION)) {
             if (i + 1 >= argc) continue;
             else {
                 int chunks = atoi(argv[i++ + 1]);
