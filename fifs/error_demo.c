@@ -12,6 +12,7 @@ int main(int argc, char* argv[]) {
             if (!strcmp(argv[i], ERRLIST_OPTION)) errlist_flag = 1;
             else if (!strcmp(argv[i], ERRNO_OPTION)) errno_flag = 1;
             else if (!strcmp(argv[i], PERROR_OPTION)) perror_flag = 1;
+            else fprintf(stderr, "Unknown option [%s] at index [%i]\n", argv[i], i);
         }
     }
 
