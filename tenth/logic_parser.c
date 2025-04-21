@@ -34,11 +34,13 @@ int main(int argc, char* argv[]) {
     }
 
     int show_tree = 0;
-    if (argc > 2) {
-        if (!strcmp(argv[2], SHOW_TREE_OPTION)) show_tree = 1;
+    char* expression = NULL;
+    for (int i = 0; i < argc; i++) {
+        if (!strcmp(argv[i], SHOW_TREE_OPTION)) show_tree = 1;
+        else expression = argv[i];
     }
 
-    token_t* h = tokenize(argv[1]);
+    token_t* h = tokenize(expression);
     if (!markup(h)) {
         fprintf(stderr, "Markup error!\n");
         exit(EXIT_FAILURE);
