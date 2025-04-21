@@ -41,15 +41,15 @@ int main(int argc, char* argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    printf("|=================================================\n");
-    printf("|| File: %s\n",            filename);
+    printf("\n|=================================================\n");
+    printf("|| File: %s\n",            filename                  );
     _print_file_type(file_stat.st_mode);
     _print_permissions(file_stat.st_mode);
-    printf("|| Size: %lld bytes\n",    file_stat.st_size);
-    printf("|| inode: %llu\n",         file_stat.st_ino);
-    printf("|| Count links: %hu\n",    file_stat.st_nlink);
+    printf("|| Size: %lld bytes\n",    file_stat.st_size         );
+    printf("|| inode: %llu\n",         file_stat.st_ino          );
+    printf("|| Count links: %hu\n",    file_stat.st_nlink        );
     printf("|| Last changed: %s",      ctime(&file_stat.st_mtime));
-    printf("|=================================================\n");
+    printf("|=================================================\n\n");
 
     return EXIT_SUCCESS;
 }
