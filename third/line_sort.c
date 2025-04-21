@@ -77,7 +77,7 @@ int main(int argc, char* argv[]) {
 
             printf("Sorted lines:\n");
             for (value_t* c = non_sorted.h; c; c = c->next) {
-                printf("%s\n", c->value);
+                fprintf(stdout, "%s\n", c->value);
                 fprintf(f, "%s\n", c->value);
             }
 
