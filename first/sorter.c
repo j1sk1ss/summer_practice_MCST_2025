@@ -25,6 +25,7 @@ int main(int argc, char* argv[]) {
         else if (!strcmp(argv[i], ASCENDING_SORT_OPTION))   sort_type = 0;
         else if (!strcmp(argv[i], DESCENDING_SORT_OPTION))  sort_type = 1;
         else if (!strcmp(argv[i], NO_OUTPUT_OPTION))        output = 0;
+        else fprintf(stderr, "Unknown option [%s] at index [%i]\n", argv[i], i);
     }
 
     rand_arr_t arr;
