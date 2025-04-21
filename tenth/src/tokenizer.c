@@ -40,7 +40,6 @@ static token_t* _create_token(char* value, token_type_t t_type) {
 
     token->next      = NULL;
     token->t_type    = t_type;
-    token->in_tree   = 0;
     token->val_index = -1;
 
     return token;
@@ -89,8 +88,8 @@ int free_tokens(token_t* head) {
     if (!head) return 0;
     while (head) {
         token_t* next = head->next;
-        if (head->value && !head->in_tree) free(head->value);
-        if (!head->in_tree) free(head);
+        if (head->value) free(head->value);
+        free(head);
         head = next;
     }
 

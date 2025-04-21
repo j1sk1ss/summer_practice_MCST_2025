@@ -58,7 +58,7 @@ int main(int argc, char* argv[]) {
         free_tokens(h);
         exit(EXIT_FAILURE);
     }
-
+    
     if (show_tree) _print_ltree(r, 0);
 
     table_t t;
@@ -83,6 +83,7 @@ int main(int argc, char* argv[]) {
     }
 
     free_table(&t);
+    free_tokens(h);
     free_tree(r);
     return EXIT_SUCCESS;
 }

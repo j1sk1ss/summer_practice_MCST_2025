@@ -18,7 +18,6 @@ typedef enum {
 } token_type_t;
 
 typedef struct token {
-    int in_tree;
     char* value;
     int val_index;
     token_type_t t_type;

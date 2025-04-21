@@ -45,7 +45,6 @@ static tree_t* _parse_factor(token_t** tokens) {
 
     switch (current->t_type) {
         case NOT_TOKEN:
-            (*tokens)->in_tree = 1;
             *tokens = current->next;
             tree_t* child = _parse_factor(tokens);
             node = _create_node(current, NULL, child);
@@ -63,7 +62,6 @@ static tree_t* _parse_factor(token_t** tokens) {
                 return NULL;
             }
 
-            (*tokens)->in_tree = 1;
             *tokens = (*tokens)->next;
         break;
         
@@ -75,7 +73,6 @@ static tree_t* _parse_factor(token_t** tokens) {
                 return NULL;
             }
             
-            (*tokens)->in_tree = 1;
             *tokens = current->next;
         break;
         default: break;
@@ -85,8 +82,17 @@ static tree_t* _parse_factor(token_t** tokens) {
 }
 
 tree_t* generate_logic_tree(token_t* tokens) {
-    tree_t* root = _parse_expression(&tokens);
-    if (tokens) return NULL;
+    token_t* current_pos = tokens;
+    tree_t* root = _parse_expression(&current_pos);
+
+    /*
+    We not at the end of tokens. That indicates about error in _parse_expression.
+    */
+    if (current_pos) {
+        free_tree(root);
+        root = NULL;
+    }
+
     return root;
 }
 
@@ -94,7 +100,6 @@ int free_tree(tree_t* r) {
     if (!r) return 0;
     free_tree(r->left);
     free_tree(r->right);
-    free(r->token);
     free(r);
 
     return 1;
