@@ -49,7 +49,7 @@ move pinter in chunk where it was found.
 */
 static int _merge(int* dst, int* src, int size, int chunks, int sort_type) {
     int* indices = (int*)calloc(chunks, sizeof(int));
-    int* limits = (int*)malloc(chunks * sizeof(int));
+    int* limits = (int*)calloc(chunks, sizeof(int));
     int chunk = size / chunks;
     if (!indices || !limits) {
         free(indices);
