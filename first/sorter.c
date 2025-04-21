@@ -4,6 +4,7 @@
 int main(int argc, char* argv[]) {
     int arr_size = 10000;
     int sort_type = 0;
+    int output = 1;
     for (int i = 1; i < argc; i++) {
         if (!strcmp(argv[i], SET_MAX_THREADS_OPTION)) {
             if (i + 1 >= argc) continue;
@@ -17,12 +18,13 @@ int main(int argc, char* argv[]) {
                 set_thread_limit(chunks);
             }
         }
-        else if (!strcmp(argv[i], ARR_SIZE)) {
+        else if (!strcmp(argv[i], ARR_SIZE_OPTION)) {
             if (i + 1 >= argc) continue;
             else arr_size = atoi(argv[i + 1]);
         }
         else if (!strcmp(argv[i], ASCENDING_SORT_OPTION))   sort_type = 0;
         else if (!strcmp(argv[i], DESCENDING_SORT_OPTION))  sort_type = 1;
+        else if (!strcmp(argv[i], NO_OUTPUT_OPTION))        output = 0;
     }
 
     rand_arr_t arr;
@@ -40,10 +42,12 @@ int main(int argc, char* argv[]) {
 
     clock_t end_time = clock();
     double elapsed_time = (double)(end_time - start_time) / CLOCKS_PER_SEC;
-    printf("Sorted array is:\n");
-    for (int i = 0; i < arr.size; i++) {
-        if (i % 10 == 0) printf("\n");
-        printf("%d ", arr.body[i]);
+    if (output) {
+        printf("Sorted array is:\n");
+        for (int i = 0; i < arr.size; i++) {
+            if (i % 10 == 0) printf("\n");
+            printf("%d ", arr.body[i]);
+        }
     }
 
     printf("\nSorting took %.6f seconds.\n", elapsed_time);

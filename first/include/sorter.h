@@ -9,7 +9,8 @@
 #include "generator.h"
 #include "sort.h"
 
-#define ARR_SIZE                "--arr_size"
+#define NO_OUTPUT_OPTION        "--no_output"
+#define ARR_SIZE_OPTION         "--arr_size"
 #define SET_MAX_THREADS_OPTION  "--max_threads"
 #define ASCENDING_SORT_OPTION   "--asc"
 #define DESCENDING_SORT_OPTION  "--desc"
