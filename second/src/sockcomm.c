@@ -42,18 +42,18 @@ int socket_comm() {
 
     if (pid > 0) {
         /*
-        Server logic part.
+        Server logic part. We in a parent process.
+        Wait untill client connect. 
+        When client connect, accept(2) create fd for comm.
         */
         client_fd = accept(server_fd, NULL, NULL);
-        if (client_fd == -1) {
-            perror("accept failed");
-            close(server_fd);
-            unlink(socket_name);
-            exit(EXIT_FAILURE);
-        }
-
         close(server_fd);
         unlink(socket_name);
+
+        if (client_fd < 0) {
+            perror("accept failed");
+            exit(EXIT_FAILURE);
+        }
 
         chat_fd(client_fd, client_fd, "server", "client");
         close(client_fd);
@@ -65,11 +65,14 @@ int socket_comm() {
         sleep(1);
 
         sock_fd = socket(AF_UNIX, SOCK_STREAM, 0);
-        if (sock_fd == -1) {
+        if (sock_fd < 0) {
             perror("socket failed");
             exit(EXIT_FAILURE);
         }
 
+        /*
+        Connectoing to server.
+        */
         if (connect(sock_fd, (struct sockaddr*)&addr, sizeof(addr)) == -1) {
             perror("connect failed");
             close(sock_fd);

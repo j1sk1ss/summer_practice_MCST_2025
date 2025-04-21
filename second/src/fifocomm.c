@@ -21,7 +21,7 @@ int fifo_comm() {
     }
 
     pid_t pid = fork();
-    if (pid == -1) {
+    if (pid < 0) {
         _destroy_link(src, dst);
         perror("fork failed");
         exit(EXIT_FAILURE);
@@ -41,7 +41,6 @@ int fifo_comm() {
         }
         
         chat_fd(write_fd, read_fd, "master", "slave");
-        _destroy_link(src, dst);
     } 
     else {
         /*
