@@ -15,6 +15,3 @@ prg -tm -s --elbrus=16c file0 --elbrus=2c3 file1
 # Описание решения
 Реализованное решение представляет из себя два файла. Это `parser.c` и `parser_old.c`. Дело в том, что изначальное я не достаточно верно прочитал поставленную задачу, и проигнорировал встроенные инструменты `getopt` и `getopt_long`, результатом чего вышел файл `parser_old.c`.
 
-nikolaj@nikolajs-MacBook-Pro fourth % ./parser -mcst -mcst -mcst -mcst -mcst -mcst -tscm --elbrus=1c+ elbrus eblrus!!!
-./parser -mcst -mcst -mcst -mcst -mcst -mcst -tscm --elbrus=1c+ elbrus eblrusmake!
-Options are correct: m, c, s, t, m, c, s, t, m, c, s, t, m, c, s, t, m, c, s, t, m, c, s, t, t, s, c, m, elbrus=1c+, non-options: elbrus, eblrusmake!.
