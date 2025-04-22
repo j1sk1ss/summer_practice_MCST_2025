@@ -20,7 +20,10 @@ int main(int argc, char* argv[]) {
     int sort_type = 0;
     int output = 1;
     for (int i = 1; i < argc; i++) {
-        if (!strcmp(argv[i], HELP_OPTION)) _print_help(argv[0]);
+        if (!strcmp(argv[i], HELP_OPTION)) {
+            _print_help(argv[0]);
+            exit(EXIT_SUCCESS);
+        }
         else if (!strcmp(argv[i], SET_MAX_THREADS_OPTION)) {
             if (i + 1 >= argc) continue;
             else {
