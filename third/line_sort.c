@@ -61,9 +61,9 @@ int main(int argc, char* argv[]) {
             char* path = non_sorted.output;
             if (path) f = fopen(path, "w");
             else {
-                char tmpname[] = "line_sort_output_XXXXXX.txt";
+                char tmpname[] = "line_sort_output_XXXXXX";
                 int out_fd = mkstemp(tmpname);
-                if (out_fd > 0) f = fdopen(out_fd, "w");
+                if (out_fd >= 0) f = fdopen(out_fd, "w");
                 else {
                     fprintf(stderr, "mkstemp return negative FD!\n");
                     exit(EXIT_FAILURE);
