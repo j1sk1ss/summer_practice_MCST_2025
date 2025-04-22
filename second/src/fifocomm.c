@@ -41,6 +41,11 @@ int fifo_comm() {
         }
         
         chat_fd(write_fd, read_fd, "master", "slave");
+
+        /*
+        Only master unlink fifo channel.
+        */
+        _destroy_link(src, dst);
     } 
     else {
         /*
@@ -59,7 +64,6 @@ int fifo_comm() {
 
     close(write_fd);
     close(read_fd);
-    _destroy_link(src, dst);
 
     return 1;
 }
