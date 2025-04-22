@@ -20,8 +20,17 @@ int main(int argc, char* argv[]) {
         if (errno_flag) printf("Error code: %d\n", errno);
         if (perror_flag) perror("Error opening file");
         if (errlist_flag) {
+/*
+sys_errlist and sys_nerr was removed from glibc since 2.32 version.
+Here we check glibc version. Also, i can note, that this vars are defined
+in macOsx and linux alpine in WSL.
+*/
+#if defined(__GLIBC__) && (__GLIBC__ < 2 || (__GLIBC__ == 2 && __GLIBC_MINOR__ < 32))
             if (errno < sys_nerr) printf("sys_errlist: %s\n", sys_errlist[errno]);
             else printf("Out of sys_errlist\n");
+#else
+            printf("strerror: %s\n", strerror(errno));
+#endif
         }
     } 
     else {

@@ -12,8 +12,11 @@
 #define PERROR_OPTION   "--perror"
 #define ERRNO_OPTION    "--errno"
 
+#if defined(__GLIBC__) && (__GLIBC__ < 2 || (__GLIBC__ == 2 && __GLIBC_MINOR__ < 32))
+    extern const int sys_nerr;
+    extern const char *const sys_errlist[];
+#endif
+
 extern int errno;
-extern const char * const sys_errlist[];
-extern const int sys_nerr;
 
 #endif
