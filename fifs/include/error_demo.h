@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 
+#define HELP_OPTION     "--help"
 #define ERRLIST_OPTION  "--errlist"
 #define PERROR_OPTION   "--perror"
 #define ERRNO_OPTION    "--errno"

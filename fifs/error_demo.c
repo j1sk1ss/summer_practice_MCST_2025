@@ -1,6 +1,18 @@
 #include "include/error_demo.h"
 
 
+static int _print_help(char* program) {
+    printf("||========================================================\n"   );
+    printf("|| Usage:\n"                                                    );
+    printf("|| --errlist option show errlist usage.\n"                      );
+    printf("|| --perror option show perrro usage.\n"                        );
+    printf("|| --errno optionshow errno usage.\n"                           );
+    printf("|| --help option show this message.\n"                          );
+    printf("||\n|| Example: %s <args>\n", program                           );
+    printf("||========================================================\n"   );
+    return 1;
+}
+
 int main(int argc, char* argv[]) {
     const char* filename = "something.abcdegklm";
     int fd = open(filename, O_RDONLY);
@@ -12,6 +24,10 @@ int main(int argc, char* argv[]) {
             if (!strcmp(argv[i], ERRLIST_OPTION)) errlist_flag = 1;
             else if (!strcmp(argv[i], ERRNO_OPTION)) errno_flag = 1;
             else if (!strcmp(argv[i], PERROR_OPTION)) perror_flag = 1;
+            else if (!strcmp(argv[i], HELP_OPTION)) {
+                _print_help(argv[0]);
+                exit(EXIT_SUCCESS);
+            }
             else fprintf(stderr, "Unknown option [%s] at index [%i]\n", argv[i], i);
         }
     }
