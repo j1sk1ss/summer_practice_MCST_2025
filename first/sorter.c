@@ -38,7 +38,13 @@ int main(int argc, char* argv[]) {
         }
         else if (!strcmp(argv[i], ARR_SIZE_OPTION)) {
             if (i + 1 >= argc) continue;
-            else arr_size = atoi(argv[i + 1]);
+            else {
+                arr_size = atoi(argv[i++ + 1]);
+                if (arr_size <= 0) {
+                    printf("[WARN] %i value is incorrect for --arr_size. Changed to 100!\n", arr_size);
+                    arr_size = 100;
+                }
+            }
         }
         else if (!strcmp(argv[i], ASCENDING_SORT_OPTION))   sort_type = 0;
         else if (!strcmp(argv[i], DESCENDING_SORT_OPTION))  sort_type = 1;
